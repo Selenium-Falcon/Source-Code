@@ -1,0 +1,30 @@
+package Project;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import org.testng.annotations.Test;
+
+public class LinkedInFirstLink extends WrapperMethods{
+
+	@Test
+	public void firstLink() throws IOException, InterruptedException{
+		GetDataFromInput gt=new GetDataFromInput();
+		ArrayList<ArrayList<String>> data = gt.getSheet();
+		for (int i = 0; i < dataRowCount; i++) {
+			invokeBrowser("chrome", "https://www.linkedin.com/nhome/");
+			inputValueById(data.get(i).get(0), "session_key-login");
+			inputValueById(data.get(i).get(1), "session_password-login");
+			buttonClickById("signin");
+			buttonClickById("advanced-search");
+			sleep(3000);
+			inputValueById("bangalore","advs-keywords");
+			buttonClickByName("submit");
+			removespecial("//*[@id='results_count']/div/p/strong[1]");
+			getFirstName("results");
+			clickByXpath("//*[@id='control_gen_3']/li[4]/a/img");
+			clickByLinkText("Sign Out");
+			closeBrowsers();
+		}
+		}	
+}
+	
