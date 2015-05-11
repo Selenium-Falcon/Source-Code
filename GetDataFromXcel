@@ -1,0 +1,60 @@
+package Project;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class GetDataFromInput {
+	static int dataRowCount;
+	public ArrayList<ArrayList<String>> getSheet() throws IOException{
+		
+		ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+		
+		try {
+			FileInputStream fis = new FileInputStream(new File("F:\\Selenium Course\\Assignments\\data\\LoginData.xlsx"));
+			XSSFWorkbook workbook = new XSSFWorkbook(fis);
+			XSSFSheet sheet = workbook.getSheet("Sheet1");	
+			
+			// get the number of rows
+			dataRowCount = sheet.getLastRowNum();
+			// get the number of columns
+			int columnCount = sheet.getRow(0).getLastCellNum();
+			
+			// loop through the rows
+			for(int i=1; i <dataRowCount+1; i++){
+				try {
+					XSSFRow row = sheet.getRow(i);
+					ArrayList<String> record = new ArrayList<String>();
+
+					for(int j=0; j <columnCount; j++){ // loop through the columns
+						try {
+							record.add(row.getCell(j).getStringCellValue()); // add to the record
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}				
+					}
+					data.add(record);
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			//workbook.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return data;
+
+	}
+
+}
