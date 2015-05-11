@@ -1,0 +1,40 @@
+# Source-Code
+package Project;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+
+public class LoginTC1 extends WrapperMethods{
+
+	@BeforeSuite
+	public void createReportHeader() throws IOException{
+		createHeader();
+	}
+	
+	@Test
+	public void verifyTitle() throws IOException, InterruptedException{
+		GetDataFromInput gt=new GetDataFromInput();
+		ArrayList<ArrayList<String>> data = gt.getSheet();
+		for (int i = 0; i < dataRowCount; i++) {
+			invokeBrowser("firefox", "https://www.linkedin.com/nhome/");
+			inputValueById(data.get(i).get(0), "session_key-login");
+			inputValueById(data.get(i).get(1), "session_password-login");
+			buttonClickById("signin");
+			verifyLinkedInTitle("Welcome! | LinkedIn");
+			clickByXpath("//*[@id='control_gen_3']/li[4]/a/img");
+			clickByLinkText("Sign Out");
+			closeBrowsers();
+		}
+		}
+	
+	@AfterSuite
+	public void saveReport() throws IOException{
+		saveReport(path);
+	}
+	}
+
+
